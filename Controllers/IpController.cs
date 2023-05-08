@@ -22,7 +22,7 @@ public class IpController : ControllerBase
     /// </summary>
     /// <param name="ip"></param>
     /// <returns></returns>
-    [HttpGet(Name = "get")]
+    [HttpGet("get",Name = "get")]
     public string? Get(string ip)
     {
         if (string.IsNullOrWhiteSpace(ip))
@@ -33,6 +33,32 @@ public class IpController : ControllerBase
         var result = _searcher.Search(ip);
         return result;
     }
+
+    /// <summary>
+    /// 单个IP查询
+    /// </summary>
+    /// <param name="ip"></param>
+    /// <returns></returns>
+    [HttpGet("GetModel",Name = "GetModel")]
+    public IpRegionModel GetModel(string ip)
+    {
+        if (string.IsNullOrWhiteSpace(ip))
+        {
+            return new IpRegionModel(ip);
+        }
+
+        var result = _searcher.Search(ip);
+        if (string.IsNullOrWhiteSpace(result) || result.Equals("0|0|0|0|0"))
+        {
+            return new IpRegionModel(ip);
+        }
+        else
+        {
+            var split = result.Split('|');
+            return new IpRegionModel(ip, split[0], split[1], split[2], split[3], split[4]);
+        }
+    }
+
 
     /// <summary>
     /// IP list 集合查询
@@ -65,7 +91,7 @@ public class IpController : ControllerBase
         return dic;
     }
 
-    [HttpPost("ListModel",Name = "GetListModel")]
+    [HttpPost("ListModel", Name = "GetListModel")]
     public List<IpRegionModel> GetListModel(List<string>? ips)
     {
         var list = new List<IpRegionModel>();
@@ -85,7 +111,7 @@ public class IpController : ControllerBase
         foreach (var ip in ips)
         {
             var result = searcher.Search(ip);
-            if (string.IsNullOrWhiteSpace(result))
+            if (string.IsNullOrWhiteSpace(result) || result.Equals("0|0|0|0|0"))
             {
                 list.Add(new IpRegionModel(ip));
             }
