@@ -11,9 +11,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Set Git Commit Hash
+        id: git_commit_hash
+        run: echo "::set-env name=COMMIT_HASH::$(git log -1 --format='%h')"
         
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        
+        #      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v2
         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -31,5 +36,5 @@ jobs:
           push: true
           tags: |
             richpeople/ip2regionapi:latest
-            richpeople/ip2regionapi:$(git log -1 --format='%h')
+            richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
             
