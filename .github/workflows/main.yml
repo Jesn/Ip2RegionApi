@@ -31,5 +31,5 @@ jobs:
           push: true
           tags: |
             richpeople/ip2regionapi:latest
-            richpeople/ip2regionapi:$(git log -1 --pretty=%h)
+            richpeople/ip2regionapi:$(git log -1 --format='%h')
             
