@@ -14,7 +14,7 @@ jobs:
 
       - name: Set Git Commit Hash
         id: git_commit_hash
-        run: echo "::set-env name=COMMIT_HASH::$(git log -1 --format='%h')"
+        run: echo ::set-output name=commit_hash::$(git log -1 --format='%h')
         
         
         #      - name: Set up QEMU
@@ -36,5 +36,5 @@ jobs:
           push: true
           tags: |
             richpeople/ip2regionapi:latest
-            richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
+            richpeople/ip2regionapi:${{ steps.git_commit_hash.outputs.commit_hash }}
             
