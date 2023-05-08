@@ -1,0 +1,38 @@
+name: Check and Replace File
+
+# 定时任务，定时检测 https://github.com/lionsoul2014/ip2region 仓库是否有最新版本的tag，
+# 如果有最新版的tag，则把新版本的xdb文件替换到本仓储中
+on:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  check-and-replace-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get Latest Release
+        id: latest_release
+        run: |
+          latest_release=$(curl -s https://api.github.com/repos/lionsoul2014/ip2region/releases/latest | jq -r '.tag_name')
+          echo "::set-output name=tag::$latest_release"
+
+      - name: Download Latest File
+        id: download_file
+        run: |
+          tag=$"{{ steps.latest_release.outputs.tag }}"
+          curl -LO https://github.com/lionsoul2014/ip2region/raw/$tag/data/ip2region.xdb
+
+      - name: Replace File
+        run: mv ip2region.xdb ./data/ip2region.xdb
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name ${{ secrets.GIT_USERNAME }} 
+          git config --global user.email ${{ secrets.GIT_USERNAME }} 
+          git add ./data/ip2region.xdb
+          git commit -m "Update ip2region.xdb"
+          git push

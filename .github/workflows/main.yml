@@ -27,6 +27,5 @@ jobs:
           push: true
           tags: |
             richpeople/ip2regionapi:latest
-            richpeople/ip2regionapi:$(git log -1 --pretty=%h)  # 使用短提交哈希作为标签
-            # richpeople/ip2regionapi:$(git log -1 --pretty=%cd --date=format:'%Y%m%d%H%M%S')  # 使用提交日期作为标签
-
+            richpeople/ip2regionapi:$(git log -1 --pretty=%h)
+            
