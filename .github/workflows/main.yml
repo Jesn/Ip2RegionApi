@@ -14,7 +14,7 @@ jobs:
 
       - name: Set Git Commit Hash
         id: git_commit_hash
-        run: echo "::set-env name=COMMIT_HASH::$(git log -1 --format='%h')"
+        run: echo "COMMIT_HASH=$(git log -1 --format='%h')" >> $GITHUB_ENV
         
       # 配置 Buildx: https://github.com/marketplace/actions/docker-setup-buildx
       - name: Set up Docker Buildx
