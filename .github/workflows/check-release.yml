@@ -25,8 +25,8 @@ jobs:
       - name: Download Latest File
         id: download_file
         run: |
-          tag=$"{{ steps.latest_release.outputs.tag }}"
-          curl -LO https://github.com/lionsoul2014/ip2region/raw/$tag/data/ip2region.xdb
+          tag="${{ steps.latest_release.outputs.tag }}"
+          curl -LO "https://github.com/lionsoul2014/ip2region/raw/$tag/data/ip2region.xdb"
 
       - name: Replace File
         run: mv ip2region.xdb ./data/ip2region.xdb
