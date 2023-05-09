@@ -38,6 +38,8 @@ jobs:
           # 指定需要构建的 multi arch
           # 多架构可以参考：https://mp.weixin.qq.com/s/sY1mBp324B34m12nVOMeog
           platforms: linux/amd64,linux/arm64
+          provenance: false
+          sbom: false
           tags: |
             richpeople/ip2regionapi:latest
             richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
