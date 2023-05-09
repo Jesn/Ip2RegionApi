@@ -14,7 +14,7 @@ jobs:
 
       - name: Set Git Commit Hash
         id: git_commit_hash
-        run: echo ::set-output name=commit_hash::$(git log -1 --format='%h')
+        run: echo "::set-env name=COMMIT_HASH::$(git log -1 --format='%h')"
         
       # 配置 Buildx: https://github.com/marketplace/actions/docker-setup-buildx
       - name: Set up Docker Buildx
@@ -40,7 +40,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             richpeople/ip2regionapi:latest
-            richpeople/ip2regionapi:${{ steps.git_commit_hash.outputs.commit_hash }}
+            richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
           labels: |-
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
