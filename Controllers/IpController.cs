@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using IP2Region.Net.XDB;
 using Ip2regionApi.Model;
+using Ip2regionApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ip2regionApi.Controllers;
@@ -10,11 +12,13 @@ public class IpController : ControllerBase
 {
     private const string Ip2RegionXDBPath = "./data/ip2region.xdb";
     private readonly ISearcher _searcher;
+    private readonly IHostEnvironment _hostEnvironment;
 
 
-    public IpController(ISearcher searcher)
+    public IpController(ISearcher searcher, IHostEnvironment hostEnvironment)
     {
         _searcher = searcher;
+        _hostEnvironment = hostEnvironment;
     }
 
     /// <summary>
@@ -22,7 +26,7 @@ public class IpController : ControllerBase
     /// </summary>
     /// <param name="ip"></param>
     /// <returns></returns>
-    [HttpGet("get",Name = "get")]
+    [HttpGet("get", Name = "get")]
     public string? Get(string ip)
     {
         if (string.IsNullOrWhiteSpace(ip))
@@ -39,7 +43,7 @@ public class IpController : ControllerBase
     /// </summary>
     /// <param name="ip"></param>
     /// <returns></returns>
-    [HttpGet("GetModel",Name = "GetModel")]
+    [HttpGet("GetModel", Name = "GetModel")]
     public IpRegionModel GetModel(string ip)
     {
         if (string.IsNullOrWhiteSpace(ip))
@@ -123,5 +127,27 @@ public class IpController : ControllerBase
         }
 
         return list;
+    }
+
+
+    /// <summary>
+    /// 获取中国段IP
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    [HttpGet("/china")]
+    public List<string> GetChinaCICD()
+    {
+        var shellPath = Path.Combine(_hostEnvironment.ContentRootPath, "data/chinaRule/apnic-chinaip.sh");
+        var chinaRulePath = Path.Combine(_hostEnvironment.ContentRootPath, "cn_rules.conf");
+
+        if (!System.IO.File.Exists(chinaRulePath) || System.IO.File.ReadAllText(chinaRulePath).Length == 0)
+        {
+            // 执行Shell脚本命令
+            ShellCommandHelper.ExecuteShellCommand($"sh {shellPath}");
+        }
+
+        var chinaCiCd = System.IO.File.ReadAllLines(chinaRulePath);
+        return chinaCiCd.ToList();
     }
 }

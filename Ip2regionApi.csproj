@@ -18,6 +18,9 @@
     <Content Include="data\ip2region.xdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Update="data\chinaRule\apnic-chinaip.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
