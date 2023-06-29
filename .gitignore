@@ -220,3 +220,5 @@ Thunbs.db
 packages/
 .vscode/
 coverage.opencover.xml
+/cn_rules.conf
+/delegated-apnic-latest
