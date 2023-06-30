@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="IP2Region.Net" Version="1.0.10" />
+    <PackageReference Include="IPNetwork2" Version="2.6.593" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>

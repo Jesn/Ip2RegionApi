@@ -1,8 +1,13 @@
 using System.Diagnostics;
+using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using IP2Region.Net.XDB;
 using Ip2regionApi.Model;
 using Ip2regionApi.Utils;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using IPNetwork = System.Net.IPNetwork;
 
 namespace Ip2regionApi.Controllers;
 
@@ -149,5 +154,40 @@ public class IpController : ControllerBase
 
         var chinaCiCd = System.IO.File.ReadAllLines(chinaRulePath);
         return chinaCiCd.ToList();
+    }
+
+
+    /// <summary>
+    /// 过滤中国段IP
+    /// </summary>
+    /// <param name="list_cidr"></param>
+    /// <returns></returns>
+    [HttpPost("ExcludeChinaIp")]
+    public List<string> ExcludeChinaIp(List<string> list_cidr)
+    {
+        // IPNetwork开源框架，非常好用 https://github.com/lduchosal/ipnetwork  
+        HashSet<IPNetwork> chinaNetworks = new HashSet<IPNetwork>(GetChinaCICD().Select(IPNetwork.Parse));
+
+        var listFilterIpNetwork = new List<string>();
+        var listChinaIp = new List<string>();
+        foreach (var sourceItem in list_cidr)
+        {
+            var isContains = chinaNetworks.Count(x => x.Contains(IPNetwork.Parse(sourceItem))) > 0;
+            if (!isContains)
+            {
+                // 境外IP
+                listFilterIpNetwork.Add(sourceItem);
+            }
+            else
+            {
+                // 中国IP
+                listChinaIp.Add(sourceItem);
+            }
+        }
+
+        Console.WriteLine("以下是中国段IP：");
+        Console.WriteLine(JsonSerializer.Serialize(listChinaIp));
+
+        return listFilterIpNetwork.Distinct().ToList();
     }
 }
