@@ -135,7 +135,7 @@ public class IpController : ControllerBase
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    [HttpGet("/china")]
+    [HttpGet("china")]
     public List<string> GetChinaCICD()
     {
         var shellPath = Path.Combine(_hostEnvironment.ContentRootPath, "data/chinaRule/apnic-chinaip.sh");
