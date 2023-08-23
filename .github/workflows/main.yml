@@ -43,7 +43,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: |
             richpeople/ip2regionapi:latest
-            richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
           labels: |-
             org.ip2regionapi.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
