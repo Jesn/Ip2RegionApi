@@ -39,7 +39,7 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
-          push: false
+          push: true
           platforms: linux/amd64,linux/arm64
           tags: |
             richpeople/ip2regionapi:latest
@@ -47,5 +47,7 @@ jobs:
           labels: |-
             org.ip2regionapi.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
