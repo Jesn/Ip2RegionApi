@@ -16,7 +16,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 7.0  # 使用 .NET 7.0 版本（根据你的项目需求）
+        dotnet-version: 7.0.302  # 使用 .NET 7.0 版本（根据你的项目需求）
 
     - name: Install Dependencies
       run: dotnet restore  # 安装项目依赖
