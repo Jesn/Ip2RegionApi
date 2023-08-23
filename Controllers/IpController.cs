@@ -190,4 +190,39 @@ public class IpController : ControllerBase
 
         return listFilterIpNetwork.Distinct().ToList();
     }
+
+
+    [HttpGet("search?ip={ip}")]
+    public async Task Search(string ip)
+    {
+        
+        // http://10.1.0.4:5010/pop/
+        
+        string url = "https://qifu-api.baidubce.com/ip/geo/v1/district?ip=82.148.98.42";
+        string proxyUrl = "http://your-proxy-address:port"; // Replace with your actual proxy address and port
+
+        var proxy = new WebProxy(proxyUrl, BypassOnLocal: false);
+        var httpClientHandler = new HttpClientHandler
+        {
+            Proxy = proxy,
+            UseProxy = true,
+        };
+
+        using HttpClient httpClient = new HttpClient(httpClientHandler);
+        httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
+        httpClient.DefaultRequestHeaders.Add("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6");
+        // Add other headers as needed...
+
+        HttpResponseMessage response = await httpClient.GetAsync(url);
+        if (response.IsSuccessStatusCode)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(content);
+        }
+        else
+        {
+            Console.WriteLine("Request failed with status code: " + response.StatusCode);
+        }
+    }
+
 }
