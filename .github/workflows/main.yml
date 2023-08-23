@@ -39,8 +39,9 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
-          push: true
+          file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
+          push: true
           tags: |
             richpeople/ip2regionapi:latest
             richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
