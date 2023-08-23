@@ -41,7 +41,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: false
           tags: |
             richpeople/ip2regionapi:latest
             richpeople/ip2regionapi:${{ env.COMMIT_HASH }}
