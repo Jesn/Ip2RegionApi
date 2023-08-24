@@ -11,11 +11,11 @@ COPY ["Ip2regionApi.csproj", "./"]
 RUN dotnet restore "Ip2regionApi.csproj"
 COPY . .
 WORKDIR "/src/"
-RUN dotnet build "Ip2regionApi.csproj" -c Release -o /app/build
+RUN dotnet build "Ip2regionApi.csproj"  -c Release -o /app/build
 
 FROM build AS publish
 
-RUN dotnet publish "Ip2regionApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Ip2regionApi.csproj" -c Release -no-cache -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
