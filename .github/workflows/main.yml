@@ -11,21 +11,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-#      - name: Set Git Commit Hash
-#        id: git_commit_hash
-#        run: echo "COMMIT_HASH=$(git log -1 --format='%h')" >> $GITHUB_ENV
         
+        #      - name: Set Git Commit Hash
+        #        id: git_commit_hash
+        #        run: echo "COMMIT_HASH=$(git log -1 --format='%h')" >> $GITHUB_ENV
+      
       # 配置 QEMU: https://github.com/marketplace/actions/docker-setup-qemu
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
           platforms: all
-        
+      
       # 配置 Buildx: https://github.com/marketplace/actions/docker-setup-buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-        
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
@@ -38,22 +38,22 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=sha
-        
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ${{ steps.meta.outputs.tags }}
-#          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Image digest
