@@ -14,3 +14,7 @@ docker push richpeople/ip2regionapi:latest
 docker run -it -d --name ip2regionapi -p 8080:80 ip2regionapi
 ```
 
+
+
+## github action 参考地址
+https://github.com/elsa-workflows/elsa-core/blob/master/.github/workflows/publish-latest-dashboard-and-server-docker.yml
