@@ -12,9 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set Git Commit Hash
-        id: git_commit_hash
-        run: echo "COMMIT_HASH=$(git log -1 --format='%h')" >> $GITHUB_ENV
+#      - name: Set Git Commit Hash
+#        id: git_commit_hash
+#        run: echo "COMMIT_HASH=$(git log -1 --format='%h')" >> $GITHUB_ENV
         
       # 配置 QEMU: https://github.com/marketplace/actions/docker-setup-qemu
       - name: Set up QEMU
@@ -48,7 +48,7 @@ jobs:
           
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
