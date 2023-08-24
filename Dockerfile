@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["Ip2regionApi.csproj", "./"]
 RUN dotnet restore "Ip2regionApi.csproj"
 COPY . .
-WORKDIR "/src"
+WORKDIR "/src/"
 RUN dotnet build "Ip2regionApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
