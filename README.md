@@ -11,7 +11,7 @@
 ## docker
 ```
 docker push richpeople/ip2regionapi:latest
-docker run -it -d --name ip2regionapi -p 8080:80 ip2regionapi
+docker run -it -d --name ip2regionapi -p 8087:80 richpeople/ip2regionapi
 ```
 
 

@@ -192,7 +192,7 @@ public class IpController : ControllerBase
     }
 
 
-    [HttpGet("search?ip={ip}")]
+    [HttpGet]
     public async Task Search(string ip)
     {
         
