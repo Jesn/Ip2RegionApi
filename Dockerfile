@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Ip2regionApi.csproj", "./"]
 RUN dotnet restore "Ip2regionApi.csproj"
-#COPY . .
-#WORKDIR "/src/src"
+COPY . .
+WORKDIR "/src"
 RUN dotnet build "Ip2regionApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
