@@ -1,5 +1,5 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-RUN apt-get update && apt-get install -y wget && apt-get -y install cron
+RUN #apt-get update && apt-get install -y wget && apt-get -y install cron
 
 WORKDIR /app
 EXPOSE 80
