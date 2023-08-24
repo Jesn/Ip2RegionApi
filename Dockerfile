@@ -23,9 +23,9 @@ COPY --from=publish /app/publish .
 
 
 # 添加定时任务
-ADD ./data/cronfile /etc/cron.d/cronfile
-RUN chmod 0644 /etc/cron.d/cronfile
-RUN crontab /etc/cron.d/cronfile
-CMD cron && tail -f /var/log/cron.log
+#ADD ./data/cronfile /etc/cron.d/cronfile
+#RUN chmod 0644 /etc/cron.d/cronfile
+#RUN crontab /etc/cron.d/cronfile
+#CMD cron && tail -f /var/log/cron.log
 
 ENTRYPOINT ["dotnet", "Ip2regionApi.dll"]
